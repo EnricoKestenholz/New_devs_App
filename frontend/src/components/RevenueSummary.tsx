@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SecureAPI } from '../lib/secureApi';
+import { useAuth } from '../contexts/AuthContext';
 
 interface RevenueData {
     property_id: string;
@@ -18,7 +19,8 @@ export const RevenueSummary: React.FC<RevenueSummaryProps> = ({ propertyId = 'pr
     const [data, setData] = useState<RevenueData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-
+ 
+    
     const activeTenant = debugTenant || 'candidate';
 
     useEffect(() => {
@@ -61,7 +63,7 @@ export const RevenueSummary: React.FC<RevenueSummaryProps> = ({ propertyId = 'pr
     if (error) return <div className="p-4 text-red-500 bg-red-50 rounded-lg">{error}</div>;
     if (!data) return null;
 
-    const displayTotal = Math.round(data.total_revenue * 100) / 100;
+    const displayTotal = data.total_revenue;
 
     return (
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-300">
